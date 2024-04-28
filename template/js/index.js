@@ -32,8 +32,8 @@ function indexOfCatch(a) {
       // 获取根路径
       this.root_path = (function () {
         let elm_path = $$('current_path');
-        let url = window.location.origin + window.location.pathname;
-        return elm_path ? url.replace(/\/(c\/)?(\w|-)+\.html/, '').replace(/\/$/, '') : '';
+        let url = decodeURIComponent(window.location.origin + window.location.pathname); // 解码路径
+        return elm_path ? url.replace(/\/(c\/)?([\w\u4e00-\u9fa5]|-)+\.html/, '').replace(/\/$/, '') : '';
       })();
 
       this.init();
