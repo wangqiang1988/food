@@ -11,6 +11,27 @@ const sortArray = function (a, b) {
 function indexOfCatch(a) {
   return a > -1
 }
+function listMDFilesInFolder(folderPath) {
+  const fs = require('fs');
+  const path = require('path');
+
+  // 存储文件名的数组
+  let fileList = [];
+
+  // 读取文件夹中的所有文件
+  fs.readdirSync(folderPath).forEach(file => {
+      // 检查文件是否是 .md 类型
+      if (path.extname(file) === '.md') {
+          // 如果是 .md 文件，则将文件名添加到数组中
+          fileList.push(file.replace('.md', ''));
+      }
+  });
+
+  return fileList;
+}
+
+
+
 (function () {
   class Commands {
     query = ''
@@ -28,6 +49,8 @@ function indexOfCatch(a) {
       this.elm_btn = $$('search_btn');
       this.elm_result = $$('result');
       this.elm_search_result = $$('search_list_result');
+      this.elm_random_btn = $$('random_btn');
+
 
       // 获取根路径
       this.root_path = (function () {
@@ -59,6 +82,7 @@ function indexOfCatch(a) {
      * @param {*} callback 事件触发回调
      * @memberof Commands
      */
+          // 绑定随机按钮点击事件
     bindEvent(element, type, callback) {
       if (element.addEventListener) {
         element.addEventListener(type, callback, false);
@@ -66,6 +90,7 @@ function indexOfCatch(a) {
         element.attachEvent('on' + type, callback);
       }
     }
+    
     isSreachIndexOF(oldstr, kw) {
       if (!oldstr || !kw) return -1;
       return oldstr.toLowerCase().indexOf(kw.toLowerCase());
@@ -238,8 +263,11 @@ function indexOfCatch(a) {
       })
       this.bindEvent(this.elm_btn, 'click', function (e) {
         setdisplay();
+        let randomPages = ['东坡肉', '回锅肉', '地三鲜', '宫保鸡丁', '家常豆腐', '水煮鱼', '炖鸡腿', '糖醋排骨', '红烧肉', '辣椒炒肉', '醋溜土豆丝', '香辣蟹', '鱼香肉丝', '鱼香酱', '麻婆豆腐']; // 添加更多宫保鸡丁页面
+        let randomIndex = Math.floor(Math.random() * randomPages.length);
+        let randomGongbaoji = mdFilesList[randomIndex];
         if (self.elm_search_result) self.searchResult(true);
-        else window.location.href = self.root_path + '/list.html#!kw=' + self.query;
+        else window.location.href = self.root_path + '/c/' + randomGongbaoji + '.html' + self.query;
       })
       this.bindEvent(this.elm_query, 'focus', function (e) {
         self.searchResult();
@@ -262,6 +290,8 @@ function indexOfCatch(a) {
       })
       if (kw) self.searchResult();
     }
+    
   }
+  
   new Commands()
 })()
