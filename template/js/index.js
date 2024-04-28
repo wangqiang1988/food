@@ -265,9 +265,9 @@ function listMDFilesInFolder(folderPath) {
         setdisplay();
         let randomPages = ['东坡肉', '回锅肉', '地三鲜', '宫保鸡丁', '家常豆腐', '水煮鱼', '炖鸡腿', '糖醋排骨', '红烧肉', '辣椒炒肉', '醋溜土豆丝', '香辣蟹', '鱼香肉丝', '鱼香酱', '麻婆豆腐']; // 添加更多宫保鸡丁页面
         let randomIndex = Math.floor(Math.random() * randomPages.length);
-        let randomGongbaoji = mdFilesList[randomIndex];
+        let random = randomPages[randomIndex];
         if (self.elm_search_result) self.searchResult(true);
-        else window.location.href = self.root_path + '/c/' + randomGongbaoji + '.html' + self.query;
+        else window.location.href = self.root_path + '/c/' + random + '.html' + self.query;
       })
       this.bindEvent(this.elm_query, 'focus', function (e) {
         self.searchResult();
