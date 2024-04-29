@@ -51,7 +51,6 @@ function listMDFilesInFolder(folderPath) {
       this.elm_search_result = $$('search_list_result');
       this.elm_random_btn = $$('random_btn');
 
-
       // 获取根路径
       this.root_path = (function () {
         let elm_path = $$('current_path');
@@ -242,6 +241,7 @@ function listMDFilesInFolder(folderPath) {
       function setdisplay(inputDisplay) {
         self.elm_result.style.display = inputDisplay || 'none'
       }
+      let arr = this.commands;
       let self = this;
       let kw = self.getQueryString('kw');
       this.elm_query.value = kw;
@@ -263,9 +263,9 @@ function listMDFilesInFolder(folderPath) {
       })
       this.bindEvent(this.elm_btn, 'click', function (e) {
         setdisplay();
-        let randomPages = ['东坡肉', '回锅肉', '地三鲜', '宫保鸡丁', '家常豆腐', '水煮鱼', '炖鸡腿', '糖醋排骨', '红烧肉', '辣椒炒肉', '醋溜土豆丝', '香辣蟹', '鱼香肉丝', '鱼香酱', '麻婆豆腐']; // 添加更多宫保鸡丁页面
-        let randomIndex = Math.floor(Math.random() * randomPages.length);
-        let random = randomPages[randomIndex];
+        console.log(arr)
+        let randomIndex = Math.floor(Math.random() * arr.length);
+        let random = arr[randomIndex].n;
         if (self.elm_search_result) self.searchResult(true);
         else window.location.href = self.root_path + '/c/' + random + '.html' + self.query;
       })
