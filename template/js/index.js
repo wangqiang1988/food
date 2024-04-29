@@ -11,25 +11,6 @@ const sortArray = function (a, b) {
 function indexOfCatch(a) {
   return a > -1
 }
-function listMDFilesInFolder(folderPath) {
-  const fs = require('fs');
-  const path = require('path');
-
-  // 存储文件名的数组
-  let fileList = [];
-
-  // 读取文件夹中的所有文件
-  fs.readdirSync(folderPath).forEach(file => {
-      // 检查文件是否是 .md 类型
-      if (path.extname(file) === '.md') {
-          // 如果是 .md 文件，则将文件名添加到数组中
-          fileList.push(file.replace('.md', ''));
-      }
-  });
-
-  return fileList;
-}
-
 
 
 (function () {
@@ -138,7 +119,23 @@ function listMDFilesInFolder(folderPath) {
       let name = json.n
       let des = json.d
       let reg = new RegExp(`(${keywolds})`, "ig")
+      let arr = this.commands;
+      let self = this;
+      let kw = self.getQueryString('kw');
+      this.elm_query.value = kw;
+      this.query = kw || '';
+      function setdisplay(inputDisplay) {
+        self.elm_result.style.display = inputDisplay || 'none'
+      }
+      this.bindEvent(this.elm_random_btn, 'click', function (e) {
+        setdisplay();
+        let randomIndex = Math.floor(Math.random() * arr.length);
+        let random = arr[randomIndex].n;
+        
+        window.location.href = self.root_path + '/c/' + random + '.html';
+      })
       if (keywolds) {
+        console.log(keywolds);
         name = json.n.replace(reg, replaceHTML);
         des = json.d.replace(reg, replaceHTML) || '';
       }
@@ -263,12 +260,19 @@ function listMDFilesInFolder(folderPath) {
       })
       this.bindEvent(this.elm_btn, 'click', function (e) {
         setdisplay();
-        console.log(arr)
-        let randomIndex = Math.floor(Math.random() * arr.length);
-        let random = arr[randomIndex].n;
         if (self.elm_search_result) self.searchResult(true);
-        else window.location.href = self.root_path + '/c/' + random + '.html' + self.query;
-      })
+        else window.location.href = self.root_path + '/list.html#!kw=' + self.query;
+      }
+    )
+      this.bindEvent(this.elm_random_btn, 'click', function (e) {
+      setdisplay();
+      let randomIndex = Math.floor(Math.random() * arr.length);
+      let random = arr[randomIndex].n;
+
+      window.location.href = self.root_path + '/c/' + random + '.html';
+    }
+  
+  )
       this.bindEvent(this.elm_query, 'focus', function (e) {
         self.searchResult();
         if (self.query) setdisplay('block');
